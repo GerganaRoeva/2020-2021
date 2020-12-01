@@ -137,9 +137,9 @@ void head(int fd, int lines, char *name)
 //------------------------------------------------------------------------
 void name_of_file(char const *name)
 {
-    write(std, "==> ", sizeof("==> "));
+    write(std, "==> ", strlen("==> "));
     write(std, name, strlen(name));        
-    write(std, " <==\n", sizeof(" <==\n"));
+    write(std, " <==\n", strlen(" <==\n"));
 }
 
 //------------------------------------------------------------------------
@@ -273,7 +273,7 @@ void read_write(int i, int argc, const char* name)
                     return;
                 }
             }
-            if(i != 0 && i != argc - 1) write(std, "\n", sizeof("\n"));
+            if(i != 0 && i != argc - 1) write(std, "\n", strlen("\n"));
 
         }
         else
@@ -296,19 +296,9 @@ void read_write(int i, int argc, const char* name)
                     return;
                 }   
             }
-            if(i != 0 && i != argc - 1) write(std, "\n", sizeof("\n"));
+            if(i != 0 && i != argc - 1) write(std, "\n", strlen("\n"));
 
         }
-       /* if((start_indx == size && buf[start_indx] != '\n') || (i == size && buf[i] != '\n'))
-        {
-            write(std, "\n", sizeof("\n"));
-        }*/
-           /* //
-            if(i != argc - 1 )
-            {
-                //write(std, "\n", sizeof("\n"));
-            }*/
-
             free(buf);
 }
 
@@ -325,9 +315,13 @@ int main(int argc, char const *argv[])
         if(strcmp(argv[i], "-") != 0)
         {                   
             
-
+            
             int lines = count_lines(argv[i]);
             if(lines == -1) continue;
+            if(i != 1)
+            {
+                write(std, "\n", strlen("\n"));
+            }
             if(argc > 2) name_of_file(argv[i]);
             char* name = (char* )argv[i];
             if(lines <= 10)
@@ -340,10 +334,7 @@ int main(int argc, char const *argv[])
             {
                 last_ten_lines(argv[i], lines);
             }
-            if(i != argc - 1)
-            {
-                write(std, "\n", sizeof("\n"));
-            }
+            
         }
 
         if(strcmp(argv[i], "-") == 0)
