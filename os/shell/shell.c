@@ -3,6 +3,8 @@
 #include <sys/types.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 char **parse_cmdline( const char *);
 
@@ -11,13 +13,21 @@ int main(int argc, char const *argv[])
     while(1)
     {
         write(STDOUT_FILENO, "$ ", strlen("$ "));
-        char cmdline[260] = {0};
-        int read_res = read(STDIN_FILENO, cmdline, sizeof(cmdline));
-        if(read_res == 0)
-        {
-            break;
-        } 
-        // printf("%s", cmdline);
+        // char cmdline[260] = {0};
+        char *cmdline = NULL;
+        size_t size = 0;
+        
+        // scanf("%s", cmdline);
+        if(getline(&cmdline, &size, stdin) == -1) break;
+        // read(STDIN_FILENO, cmdline, sizeof(cmdline));
+
+        // if(read_res == 0) break;
+        int i;
+        // for(i = 0; cmdline[i] != '\0'; i++);
+
+    
+
+        //printf("%c", cmdline[2]);
         
         char ** arg;
         arg = parse_cmdline(cmdline);
@@ -31,15 +41,19 @@ int main(int argc, char const *argv[])
             perror("fork");
             continue;
         }
-        else
+
+        if(fork_res == 0)
         {
             int exec_res = execvp(arg[0], arg);
             if (exec_res == -1)
             {
                 perror(arg[0]);
+                continue;
             }
+    
         }
-        
+
+        wait(NULL);
 
         free(arg);
     }
@@ -57,7 +71,7 @@ char **parse_cmdline(const char *cmdline)
     int i = 0;
     char * pch;
 
-    pch = strtok(in_use ," ");
+    pch = strtok(in_use ," \n");
     char ** arr= malloc(sizeof(pch));
     while (pch != NULL)
     {
