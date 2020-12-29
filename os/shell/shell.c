@@ -1,3 +1,12 @@
+//------------------------------------------------------------------------
+// NAME: Гергана Роева
+// CLASS: XIб
+// NUMBER: 8
+// PROBLEM: #2
+// FILE NAME: shell.c
+// FILE PURPOSE:
+// Целта на задачата е да се реализира прост команден интерпретатор shell.
+//------------------------------------------------------------------------
 #include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -69,7 +78,12 @@ int main(int argc, char const *argv[])
     
     return 0;
 }
-
+//------------------------------------------------------------------------
+// FUNCTION: parse_cmdline
+// приема като аргумент C-string и да връща масив от C-стрингове
+// PARAMETERS:
+// C-string
+//------------------------------------------------------------------------
 char **parse_cmdline(const char *cmdline)
 {
     char in_use[strlen(cmdline) + 1];
