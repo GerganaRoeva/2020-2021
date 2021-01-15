@@ -79,11 +79,11 @@ def animate(grid):
         generation = next_generation(generation)
 
 
-g = [[0 for i in range(15)] for k in range(15)]
+g = [[0 for i in range(5)] for k in range(5)]
 g[2][1] = 1
 g[2][2] = 1
 g[2][3] = 1
-# g[1][3] = 1
-# g[0][2] = 1
+g[1][3] = 1
+g[0][2] = 1
 
 animate(g)
