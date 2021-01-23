@@ -4,9 +4,9 @@
 
 std::string Software::to_string(std::string maker, std::string os, std::string version)
 {
-    // std::cout << "maker: " << maker << std::endl;
-    // std::cout << "os: " << os << std::endl; 
-    // std::cout << "version: " << version << std::endl;    
+    std::string info;
+    info =  "maker: " + maker + '\n' + "os: " + os + '\n' + "version: " + version + '\n';
+    return info;   
 }
 
 void Software::check_values(std::string maker, std::string os, std::string version)

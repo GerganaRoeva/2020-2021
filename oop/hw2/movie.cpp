@@ -4,10 +4,9 @@
 
 std::string Movie::to_string(std::string director, int duration, std::string language)
 {
-    // std::cout << "director: " << director << std::endl;
-    // std::cout << "duration: " << duration << std::endl;
-    // std::cout << "language: " << language << std::endl;
-    
+    std::string info;
+    info =  "director: " + director + '\n' + "duration: " + std::to_string(duration) + '\n' + "language: " + language + '\n';
+    return info;     
 }
 
 void Movie::check_values(std::string director, int duration, std::string language)

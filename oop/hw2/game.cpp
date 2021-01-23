@@ -4,8 +4,9 @@
 
 std::string Game::to_string(std::string platform, char maturity_rating)
 {
-    // std::cout << "platform: " << platform << std::endl;
-    // std::cout << "maturity_rating: " << maturity_rating << std::endl;    
+    std::string info;
+    info =  "platform: " + platform + '\n' + "maturity_rating: " + maturity_rating + '\n';
+    return info;
 }
 
 void Game::check_values(std::string platform, char maturity_rating)

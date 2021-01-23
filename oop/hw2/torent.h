@@ -1,6 +1,6 @@
 #ifndef TORENT_H
 #define TORENT_H
-#include string
+#include <string>
 
 //using std::string;
 
