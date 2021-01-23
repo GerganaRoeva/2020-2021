@@ -10,7 +10,8 @@ private:
     int duration;
     std::string language;
 public:
-    Movie(std::string director, int duration, std::string language): director(director), duration(duration), language(language){}
+    Movie(std::string name, int size, std::string uploader, int number_downloads, std::string director, int duration, std::string language):
+        Torent(name, size, uploader, number_downloads), director(director), duration(duration), language(language){}
     Movie(const Movie& other): director(other.director), duration(other.duration), language(other.language){}
 
     std::string to_string(std::string director, int duration, std::string language);

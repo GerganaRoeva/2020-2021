@@ -15,7 +15,7 @@ private:
     std::list<Software> softwares;
 
 public:
-    Server();
+    Server(){}
     Server(std::list<Game> games, std::list<Movie> movies, std::list<Software> softwares) :
         games(games), movies(movies), softwares(softwares) {}
     std::list<Torent> search_all_by_name(std::list<Game> games, std::list<Movie> movies, std::list<Software> softwares);
