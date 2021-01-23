@@ -2,11 +2,11 @@
 #include <cstring>
 #include <iostream>
 
-void Movie::to_string(std::string director, int duration, std::string language)
+std::string Movie::to_string(std::string director, int duration, std::string language)
 {
-    std::cout << "director: " << director << std::endl;
-    std::cout << "duration: " << duration << std::endl;
-    std::cout << "language: " << language << std::endl;
+    // std::cout << "director: " << director << std::endl;
+    // std::cout << "duration: " << duration << std::endl;
+    // std::cout << "language: " << language << std::endl;
     
 }
 

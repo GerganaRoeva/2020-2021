@@ -13,10 +13,16 @@ public:
     Movie(std::string director, int duration, std::string language): director(director), duration(duration), language(language){}
     Movie(const Movie& other): director(other.director), duration(other.duration), language(other.language){}
 
-    void to_string(std::string director, int duration, std::string language);
+    std::string to_string(std::string director, int duration, std::string language);
     void check_values(std::string director, int duration, std::string language);
 
-    ~Movie();
+    // std::string get_name() return name;
+    std::string get_director()
+    {
+        return director;
+    }
+
+    ~Movie(){}
 };
 
 #endif

@@ -2,10 +2,10 @@
 #include <cstring>
 #include <iostream>
 
-void Game::to_string(std::string platform, char maturity_rating)
+std::string Game::to_string(std::string platform, char maturity_rating)
 {
-    std::cout << "platform: " << platform << std::endl;
-    std::cout << "maturity_rating: " << maturity_rating << std::endl;    
+    // std::cout << "platform: " << platform << std::endl;
+    // std::cout << "maturity_rating: " << maturity_rating << std::endl;    
 }
 
 void Game::check_values(std::string platform, char maturity_rating)

@@ -18,12 +18,12 @@ public:
     Server();
     Server(std::list<Game> games, std::list<Movie> movies, std::list<Software> softwares) :
         games(games), movies(movies), softwares(softwares) {}
-    std::list<Torent> search_all(std::list<Game> games, std::list<Movie> movies, std::list<Software> softwares);
-    std::list<Torent> search_game_rating(std::list<Game> games);
-    std::list<Torent> search_movie_director(std::list<Movie> movies);
-    std::list<Torent> search_software_version(std::list<Software> softwares);
-
-    ~Server();
+    std::list<Torent> search_all_by_name(std::list<Game> games, std::list<Movie> movies, std::list<Software> softwares);
+    std::list<Game> search_game_rating(std::list<Game> games);
+    std::list<Movie> search_movie_director(std::list<Movie> movies);
+    std::list<Software> search_software_version(std::list<Software> softwares);
+    // std::string get_major_version(std::string version);
+    ~Server(){}
 };
 
 #endif

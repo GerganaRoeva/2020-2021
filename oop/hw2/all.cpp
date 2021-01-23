@@ -11,12 +11,17 @@ private:
     std::string name;
     int size;
     std::string uploader;
-    static int number_downloads;
+    int number_downloads;
 
 public:
-    Torent();
-    Torent(std::string name, int size, std::string uploader): name(name), size(size), uploader(uploader) {}
-    ~Torent();
+    Torent(){}
+    // Torent(const Torent& other): name(other.name), size(other.size), uploader(other.uploader)/*, number_downloads(number_downloads)*/ {}
+    Torent(std::string name, int size, std::string uploader, int number_downloads): name(name), size(size), uploader(uploader)/*, number_downloads(number_downloads)*/ {}
+    std::string get_name()
+    {
+        return this->name;
+    }
+    ~Torent(){}
 };
 
 class Game : public Torent
@@ -32,7 +37,14 @@ public:
     void to_string(std::string platform, char maturity_rating);
     void check_values(std::string platform, char maturity_rating);
 
-    ~Game();
+    // std::string get_name()
+    // { return name; }
+    char get_rating()
+    {
+        return maturity_rating;
+    }
+
+    ~Game(){}
 };
 
 class Software : public Torent
@@ -48,8 +60,15 @@ public:
     void to_string(std::string maker, std::string os, std::string version);
     void check_values(std::string maker, std::string os, std::string version);
 
+    // std::string get_name() return name;
+    std::string get_version()
+    {
+        return version;
+    }
 
-    ~Software();
+    std::string get_major_version(std::string version);
+
+    ~Software(){}
 };
 
 class Movie : public Torent
@@ -65,7 +84,13 @@ public:
     void to_string(std::string director, int duration, std::string language);
     void check_values(std::string director, int duration, std::string language);
 
-    ~Movie();
+    // std::string get_name() return name;
+    std::string get_director()
+    {
+        return director;
+    }
+
+    ~Movie(){}
 };
 
 class Server
@@ -80,12 +105,12 @@ public:
     Server();
     Server(std::list<Game> games, std::list<Movie> movies, std::list<Software> softwares) :
         games(games), movies(movies), softwares(softwares) {}
-    std::list<Torent> search_all(std::list<Game> games, std::list<Movie> movies, std::list<Software> softwares);
-    std::list<Torent> search_game_rating(std::list<Game> games);
-    std::list<Torent> search_movie_director(std::list<Movie> movies);
-    std::list<Torent> search_software_version(std::list<Software> softwares);
-
-    ~Server();
+    std::list<Torent> search_all_by_name(std::list<Game> games, std::list<Movie> movies, std::list<Software> softwares);
+    std::list<Game> search_game_rating(std::list<Game> games);
+    std::list<Movie> search_movie_director(std::list<Movie> movies);
+    std::list<Software> search_software_version(std::list<Software> softwares);
+    // std::string get_major_version(std::string version);
+    ~Server(){}
 };
 
 void Game::to_string(std::string platform, char maturity_rating)
@@ -133,6 +158,109 @@ void Software::check_values(std::string maker, std::string os, std::string versi
             throw "some string";
     }
     if(count_dots != 2) throw "some string";
+}
+
+std::list<Torent> Server::search_all_by_name(std::list<Game> games, std::list<Movie> movies, std::list<Software> softwares)
+{
+    std::list<Torent> results;
+    std::string name;
+    std::cout << "search: ";    
+    std::cin >> name;
+    for(auto it = games.begin(); it != games.end(); it++)
+    {
+        if ((*it).get_name() == name)
+        {
+            results.push_back(*it);
+        }           
+    }
+
+    for(auto it = movies.begin(); it != movies.end(); it++)
+    {
+        if ((*it).get_name() == name)
+        {
+            results.push_back(*it);
+        }           
+    }
+
+    for(auto it = softwares.begin(); it != softwares.end(); it++)
+    {
+        if ((*it).get_name() == name)
+        {
+            results.push_back(*it);
+        }           
+    }
+
+    return results;
+}
+
+std::list<Game> Server::search_game_rating(std::list<Game> games)
+{
+    std::list<Game> results;
+    char rating;
+    std::cout << "search raiting: ";
+    std::cin >> rating;
+    for(auto it = games.begin(); it != games.end(); it++)
+    {
+        if ((*it).get_rating() == rating)
+        {
+            results.push_back(*it);
+        }           
+    }
+
+    return results;
+}
+
+std::list<Movie> Server::search_movie_director(std::list<Movie> movies)
+{
+    std::list<Movie> results;
+    std::string director;
+    std::cout << "search director: ";
+    std::cin >> director;
+    for(auto it = movies.begin(); it != movies.end(); it++)
+    {
+        if ((*it).get_director() == director)
+        {
+            results.push_back(*it);
+        }           
+    }
+    return results;
+}
+
+// std::string get_major_version(std::string version)
+// {
+//     std::string major;
+//     // major = version[0];
+//     major.append(1,version[0]);
+//     for(int i = 1; version[i] != '.'; i++)
+//     {
+//         major += version[i];
+//     }
+//     return major;
+// }
+
+std::list<Software> Server::search_software_version(std::list<Software> softwares)
+{
+    std::list<Software> results;
+    std::string version;
+    std::cout << "search version: ";
+    std::cin >> version;
+
+    std::string major;
+    // major = version[0];
+    major.append(1,version[0]);
+    for(int i = 1; version[i] != '.'; i++)
+    {
+        major += version[i];
+    }
+
+    for(auto it = softwares.begin(); it != softwares.end(); it++)
+    {
+        if (major == version)
+        {
+            results.push_back(*it);
+        }           
+    }
+    return results;
 }
 
 int main()
