@@ -8,8 +8,8 @@ void Game::to_string(std::string platform, char maturity_rating)
     std::cout << "maturity_rating: " << maturity_rating << std::endl;    
 }
 
-void Game::check_values(std::string platform, char maturity_rating);
+void Game::check_values(std::string platform, char maturity_rating)
 {
-    if(!strlen(platform)) trow "some string";
-    if(maturity_rating != 'E' || maturity_rating != 'M'|| maturity_rating != 'P') trow "some string";
+    if(!platform.length()) throw "some string";
+    if(maturity_rating != 'E' || maturity_rating != 'M'|| maturity_rating != 'P') throw "some string";
 }

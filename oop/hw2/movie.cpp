@@ -10,8 +10,8 @@ void Movie::to_string(std::string director, int duration, std::string language)
     
 }
 
-void Movie::check_values(std::string director, int duration, std::string language);
+void Movie::check_values(std::string director, int duration, std::string language)
 {
-    if(!strlen(director) || !strlen(language)) trow "some string";
-    if(duration < 0) trow "some string";
+    if(!director.length() || !language.length()) throw "some string";
+    if(duration < 0) throw "some string";
 }

@@ -13,7 +13,8 @@ private:
     static int number_downloads;
 
 public:
-    Torent(std::string name, int size, std::string uploader): name(name), size(size), uploader(uploader)
+    Torent();
+    Torent(std::string name, int size, std::string uploader): name(name), size(size), uploader(uploader) {}
     ~Torent();
 };
 
