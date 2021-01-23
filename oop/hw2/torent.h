@@ -6,7 +6,7 @@
 
 class Torent
 {
-private:
+protected:
     std::string name;
     int size;
     std::string uploader;
