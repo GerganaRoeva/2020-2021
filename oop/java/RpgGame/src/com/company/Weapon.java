@@ -1,2 +1,5 @@
-package com.company;public class Weapon {
+package com.company;
+
+public class Weapon extends Item{
+    int damage;
 }

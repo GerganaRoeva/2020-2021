@@ -1,2 +1,4 @@
-package com.company;public class Potion {
+package com.company;
+
+public class Potion extends Item{
 }

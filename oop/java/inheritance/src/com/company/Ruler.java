@@ -1,2 +1,4 @@
-package com.company;public class Ruler {
+package com.company;
+
+public class Ruler {
 }
