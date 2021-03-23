@@ -1,2 +1,2 @@
 all:
-	gcc -Wall -pthread -pedantic -std=c11 starcraft3.c -o starcraft3
+	gcc -Wall -Werror -Wpedantic -pthread -std=c11 starcraft3.c -o starcraft3
