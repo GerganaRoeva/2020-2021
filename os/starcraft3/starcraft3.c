@@ -1,3 +1,14 @@
+//--------------------------------------------
+// NAME: Гергана Роева
+// CLASS: Xiб
+// NUMBER: 8
+// PROBLEM: #3
+// FILE NAME: stacraft3.c (unix file name)
+// FILE PURPOSE:
+// Реализация на прототип на
+// StarCraft III
+// ...
+//---------------------------------------------
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -15,6 +26,12 @@ int mirals_bank = 0;
 int soldiers_count = 0;
 int* mine;
 
+//--------------------------------------------
+// FUNCTION: are_mines_empty (име на функцията)
+// проверява дали всички стойности на масив са 0
+// PARAMETERS:
+// указател към първия елемент от масив и брой елементи
+//----------------------------------------------
 int are_mines_empty(int mines[], int num_mines)
 {
     int count_empty = 0;
@@ -25,7 +42,12 @@ int are_mines_empty(int mines[], int num_mines)
     return count_empty == num_mines;
 }
 
-
+//--------------------------------------------
+// FUNCTION: workers_job (име на функцията)
+// работата, която работника извършва
+// PARAMETERS:
+// индекса на работника
+//----------------------------------------------
 void* workers_job(void* arg)
 {
     int* index = (int*)arg;
@@ -49,17 +71,18 @@ void* workers_job(void* arg)
                 else
                     send = 8;
 
-                mine[i - 1] -= send;
-                printf("SCV %d is transporting minerals\n", *index);
+                mine[i - 1] = mine[i - 1] - send;
                 pthread_mutex_unlock(&mutex_for_mine[i - 1]);
+                printf("SCV %d is transporting minerals\n", *index);
 
                 sleep(2);
                 // sleep(1);
 
                 pthread_mutex_lock(&mutex_for_bank);
-                mirals_bank += send;
-                printf("SCV %d delivered minerals to the Command Center\n", *index);
+                mirals_bank = mirals_bank + send;
                 pthread_mutex_unlock(&mutex_for_bank);
+                printf("SCV %d delivered minerals to the Command Center\n", *index);
+
             }
         }
         i++;
@@ -123,7 +146,7 @@ int main(int argc, char const *argv[])
         else if(command == 'm' && mirals_bank >= 50)
         {
             pthread_mutex_lock(&mutex_for_bank);
-            mirals_bank -= 50;
+            mirals_bank = mirals_bank - 50;
             pthread_mutex_unlock(&mutex_for_bank);
             sleep(1);
             soldiers_count++;
@@ -132,7 +155,7 @@ int main(int argc, char const *argv[])
         }
         else if(command == 's' && mirals_bank >= 50){
             pthread_mutex_lock(&mutex_for_bank);
-            mirals_bank -= 50;
+            mirals_bank = mirals_bank - 50;
             pthread_mutex_unlock(&mutex_for_bank);
             sleep(4);
             bonus_SCV++;

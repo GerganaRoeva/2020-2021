@@ -13,11 +13,11 @@ CREATE TABLE Student(
 
 CREATE TABLE Grades(
     id int auto_increment not null,
-    grade_bg varchar(100) not null  DEFAULT 2,
+    grade_bg int  not null  DEFAULT 2,
     CHECK (grade_bg <= 6 and grade_bg >= 2),
-    grade_math varchar(100) not null DEFAULT 2,
+    grade_math int not null DEFAULT 2,
     CHECK (grade_math <= 6 and grade_math >= 2),
-    grade_subd varchar(100) not null DEFAULT 2,
+    grade_subd int not null DEFAULT 2,
     CHECK (grade_subd <= 6 and grade_subd >= 2),
     student_id int,
     PRIMARY KEY (id),
