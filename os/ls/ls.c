@@ -44,6 +44,70 @@ int fnamescount(int argc, char * const argv[])
     return count;
 }
 
+int count_total(char * const name)
+{   
+    struct stat data;
+    int total;
+
+    if(stat(name, &data) == -1)
+    {
+        const char* msg1 = "ls: cannot access ";
+        const char* msg2 = name;
+
+        char* msg;
+        msg = malloc(strlen(msg1)+1+strlen(msg2));
+        strcpy(msg, msg1);
+        strcat(msg, msg2);
+
+        perror(msg);
+    }
+    else if(S_ISDIR(data.st_mode))
+    {
+        DIR* dir;
+        struct dirent *dir_inf; 
+
+        if((dir = opendir(name)) == NULL)
+        {
+            const char* msg1 = "ls: cannot open directory ";
+            const char* msg2 = name;
+
+            char* msg;
+            msg = malloc(strlen(msg1)+1+strlen(msg2));
+            strcpy(msg, msg1);
+            strcat(msg, msg2);
+
+            perror(msg);
+        }
+        else while((dir_inf = readdir(dir)) != NULL)
+        {
+            char file_name[PATH_MAX];
+            sprintf(file_name, "%s/%s", name, dir_inf->d_name);
+            struct stat data_check;
+
+            if(stat(file_name, &data_check) == -1)
+            {
+                const char* msg1 = "ls: cannot access ";
+                const char* msg2 = dir_inf->d_name;
+
+                char* msg;
+                msg = malloc(strlen(msg1)+1+strlen(msg2));
+                strcpy(msg, msg1);
+                strcat(msg, msg2);
+
+                perror(msg);
+                free(msg);
+            }  
+            else 
+            {
+                if(!strcmp(dir_inf->d_name, ".") || !strcmp(dir_inf->d_name, ".."))    continue;
+                total += data_check.st_blocks;
+            }
+        }
+        closedir(dir);
+    }
+    return total;
+}
+
 void printlinfo(struct stat data)
 {
     if(S_IRUSR  & data.st_mode)      printf("r");
@@ -65,28 +129,26 @@ void printlinfo(struct stat data)
     if(S_IXOTH  & data.st_mode)      printf("x");
     else                             printf("-");
 
-    printf(" %ld", data.st_nlink);
+    printf(" %ld ", data.st_nlink);
 
     struct passwd *pw = getpwuid(data.st_uid);
     struct group  *gr = getgrgid(data.st_gid);
-    if( pw != 0)                     printf(" %s", pw->pw_name);
-    if( gr != 0)                     printf(" %s", gr->gr_name);
+    if( pw != 0)                     printf("%s ", pw->pw_name);
+    if( gr != 0)                     printf("%s ", gr->gr_name);
 
-    printf(" %10ld", data.st_size);
+    printf("%ld ", data.st_size);
 
     struct tm *time;
     time = localtime(&data.st_mtim.tv_sec);
     int size = 100;
     char timestr[size];
-    strftime(timestr,size, " %B %e %H:%M", time);
-    printf(" %s", timestr);
-
+    strftime(timestr,size, "%B %e %H:%M", time);
+    printf("%s", timestr);
 }
 
 void ls(char * const name, int argc, int count)
 {
     struct stat data;
-    int total = 0;
 
     // count++;
     if(count > 0)
@@ -115,51 +177,7 @@ void ls(char * const name, int argc, int count)
         if(l && !S_ISDIR(data.st_mode))    printlinfo(data);
         if(!S_ISDIR(data.st_mode))         printf(" %s\n", name);
 
-        if(S_ISDIR(data.st_mode))
-        {
-            DIR* dir;
-            struct dirent *dir_inf; 
-
-            if((dir = opendir(name)) == NULL)
-            {
-                const char* msg1 = "ls: cannot open directory ";
-                const char* msg2 = name;
-
-                char* msg;
-                msg = malloc(strlen(msg1)+1+strlen(msg2));
-                strcpy(msg, msg1);
-                strcat(msg, msg2);
-
-                perror(msg);
-            }
-            else while((dir_inf = readdir(dir)) != NULL)
-            {
-                char file_name[PATH_MAX];
-                sprintf(file_name, "%s/%s", name, dir_inf->d_name);
-                struct stat data_check;
-
-                if(stat(file_name, &data_check) == -1)
-                {
-                    const char* msg1 = "ls: cannot access ";
-                    const char* msg2 = dir_inf->d_name;
-
-                    char* msg;
-                    msg = malloc(strlen(msg1)+1+strlen(msg2));
-                    strcpy(msg, msg1);
-                    strcat(msg, msg2);
-
-                    perror(msg);
-                    free(msg);
-                }  
-                else 
-                {
-                    if(!strcmp(dir_inf->d_name, ".") || !strcmp(dir_inf->d_name, ".."))    continue;
-                    total += data_check.st_blocks;
-                }
-                // pr
-            }
-            closedir(dir);
-        }
+        
 
         if(S_ISDIR(data.st_mode))
         {
@@ -168,7 +186,7 @@ void ls(char * const name, int argc, int count)
 
             if (argc > 1) printf("%s:\n", name);
 
-            if(l)    printf("total %d\n", total/2);
+            if(l) printf("total %d\n", count_total(name)/2);
 
 
             if((dir = opendir(name)) == NULL)
@@ -224,7 +242,7 @@ void ls(char * const name, int argc, int count)
 
 void lsR()
 {
-    
+
 }
 
 int main(int argc, char * const argv[])
